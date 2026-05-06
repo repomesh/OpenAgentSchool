@@ -5,6 +5,7 @@ import { ChatCircleDots } from '@phosphor-icons/react';
 import EnlightenMe from './EnlightenMe';
 import { cn } from '@/lib/utils';
 import { useSEOContext } from '@/hooks/useSEOContext';
+import { useAIAuthGate } from '@/components/ai/useAIAuthGate';
 
 // NOTE: "Ask AI" is an alias for "EnlightenMe Button" - this component provides AI-powered insights
 // It helps users understand complex concepts through interactive AI assistance and contextual prompting
@@ -42,6 +43,7 @@ export function EnlightenMeButton({
 }: EnlightenMeButtonProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [hintIndex, setHintIndex] = useState(0);
+  const { guardAIInteraction } = useAIAuthGate();
   
   // Get rich SEO context for enhanced prompts
   const seoContext = useSEOContext();
@@ -64,12 +66,12 @@ export function EnlightenMeButton({
     const onKey = (e: KeyboardEvent) => {
       if (e.shiftKey && (e.key === 'E' || e.key === 'e')) {
         e.preventDefault();
-        setIsDialogOpen(true);
+        if (guardAIInteraction()) setIsDialogOpen(true);
       }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, []);
+  }, [guardAIInteraction]);
 
   // Create a detailed prompt based on the context description with SEO enhancement
   const createPrompt = () => {
@@ -123,7 +125,7 @@ Use diagrams in Mermaid or ASCII where they clarify architecture. Include a conc
             // Keep inline positioning stable to avoid wrapping
             mode === 'inline' ? 'static' : ''
           )}
-          onClick={() => { trackEvent({ action: 'dialog_open', category: 'enlighten_me', label: title }); setIsDialogOpen(true); }}
+          onClick={() => { if (!guardAIInteraction()) return; trackEvent({ action: 'dialog_open', category: 'enlighten_me', label: title }); setIsDialogOpen(true); }}
           aria-label={`Ask AI about ${title}`}
           title={`Ask AI – ${hints[hintIndex]}`}
         >

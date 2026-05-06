@@ -7,6 +7,8 @@ import { callLlm } from '@/lib/llm'
 import { getFirstAvailableProvider } from '@/lib/config'
 import { getTranslateTargets, TranslateTargetCode } from '@/lib/languages'
 import { buildHtmlTranslatePrompt } from '@/prompts/translationPrompts'
+import { AIDisclosureBanner } from '@/components/ai/AIDisclosureBanner'
+import { useAIAuthGate } from '@/components/ai/useAIAuthGate'
 
 type Props = {
   open: boolean
@@ -18,6 +20,7 @@ const ALL_LANGS = getTranslateTargets()
 type LangCode = TranslateTargetCode
 
 export default function AskAITranslate({ open, onOpenChange, sourceHtml }: Props) {
+  const { guardAIInteraction } = useAIAuthGate()
   const sortedLangs = useMemo(() => [...ALL_LANGS].sort((a, b) => a.label.localeCompare(b.label)), [])
   const defaultLang = useMemo<LangCode>(() => (sortedLangs.find(l => l.code === 'es')?.code ?? (sortedLangs[0]?.code as LangCode) ?? 'es'), [sortedLangs])
   const [lang, setLang] = useState<LangCode>(defaultLang)
@@ -56,6 +59,7 @@ export default function AskAITranslate({ open, onOpenChange, sourceHtml }: Props
   }
 
   async function translate() {
+    if (!guardAIInteraction()) return;
     trackEvent({ action: 'translate_submit', category: 'ask_ai', label: lang });
     setLoading(true)
     setError(null)
@@ -96,6 +100,7 @@ export default function AskAITranslate({ open, onOpenChange, sourceHtml }: Props
               </Button>
             )}
           </div>
+          <AIDisclosureBanner />
         </DialogHeader>
         <div className={`grid ${hasOut && !showControls ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-3'} gap-4 min-h-0`}>
           <div className={`md:col-span-1 space-y-2 ${hasOut && !showControls ? 'hidden' : ''}`}>

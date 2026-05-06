@@ -25,6 +25,7 @@ import { getFirstAvailableProvider } from '@/lib/config';
 import { cn } from '@/lib/utils';
 import { LANGUAGES } from '@/lib/languages';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { useAIAuthGate } from '@/components/ai/useAIAuthGate';
 
 const LS_COLLAPSED_KEY = 'oas.voice.fab.collapsed';
 const LS_ONBOARDED_KEY = 'oas.voice.onboarded';
@@ -33,6 +34,7 @@ export default function VoiceFAB() {
   const navigate = useNavigate();
   const location = useLocation();
   const voice = useVoiceInput();
+  const { guardAIInteraction } = useAIAuthGate();
 
   const [collapsed, setCollapsed] = useState(() => {
     try { return localStorage.getItem(LS_COLLAPSED_KEY) === '1'; } catch { return false; }
@@ -129,10 +131,11 @@ export default function VoiceFAB() {
     if (voice.isListening) {
       voice.stopVoice();
     } else {
+      if (!guardAIInteraction()) return;
       setResultMessage(null);
       voice.startVoice();
     }
-  }, [collapsed, voice, showOnboarding]);
+  }, [collapsed, voice, showOnboarding, guardAIInteraction]);
 
   const handleDismiss = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();

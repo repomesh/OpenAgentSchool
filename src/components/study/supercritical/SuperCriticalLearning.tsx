@@ -14,6 +14,8 @@ import type { SCLMode } from '@/types/supercritical';
 import { callLlmWithMessages, type LlmProvider, type LlmMessage } from '@/lib/llm';
 import { getFirstAvailableProvider } from '@/lib/config';
 import { loadSettings } from '@/lib/userSettings';
+import { useAIAuthGate } from '@/components/ai/useAIAuthGate';
+import { AIDisclosureBanner } from '@/components/ai/AIDisclosureBanner';
 
 interface SuperCriticalLearningProps {
   onBack?: () => void;
@@ -43,6 +45,7 @@ function SuperCriticalLearning({
   const [loadingSynth, setLoadingSynth] = useState(false);
   // Validation error buckets per section
   const [validationErrors, setValidationErrors] = useState<{ first: string[]; higher: string[]; synthesis: string[] }>({ first: [], higher: [], synthesis: [] });
+  const { guardAIInteraction } = useAIAuthGate();
 
   // Zod schemas (tiny) for runtime validation
   const EffectSchema = z.object({
@@ -691,6 +694,7 @@ Return ONLY valid JSON with non-empty arrays. Provide 3-5 items for insights, re
   };
 
   const handleStartSession = async (seeds: any) => {
+    if (!guardAIInteraction()) return;
     trackEvent({ action: 'session_start', category: 'scl' });
     setAnalysisSeeds(seeds);
     setAnalysisStarted(true);
@@ -714,6 +718,7 @@ Return ONLY valid JSON with non-empty arrays. Provide 3-5 items for insights, re
     return (
       <div className="scl-flat-ui min-h-screen bg-background p-6">
         <div className="max-w-4xl mx-auto space-y-8">
+          <AIDisclosureBanner />
           <div className="flex items-center justify-between print:mb-0">
             <div className="flex items-center gap-4">
               <Button

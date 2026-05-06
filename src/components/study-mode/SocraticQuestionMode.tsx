@@ -32,6 +32,7 @@ import { orchestratorAPI, SocraticQuestion as OrchestratorSocraticQuestion } fro
 import { useAuth } from '@/lib/auth/AuthContext';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { AIDisclosureBanner } from '@/components/ai/AIDisclosureBanner';
 
 interface SocraticQuestionModeProps {
   question: StudyModeQuestion;
@@ -991,6 +992,7 @@ ${llmJudgeResponse.improvements.map(improvement => `• ${improvement}`).join('\
 
   return (
     <div className="w-full max-w-4xl mx-auto space-y-6">
+      <AIDisclosureBanner />
       {/* User Context Display */}
       {userContext && (
         <Card className="bg-muted text-foreground border">

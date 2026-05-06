@@ -18,6 +18,8 @@ import remarkGfm from 'remark-gfm';
 import { type LlmProvider, callLlm } from '@/lib/llm';
 import { getFirstAvailableProvider } from '@/lib/config';
 import { formatLlmErrorMessage } from '@/lib/llmErrors';
+import { AIDisclosureBanner } from '@/components/ai/AIDisclosureBanner';
+import { useAIAuthGate } from '@/components/ai/useAIAuthGate';
 
 // Inline dark theme to avoid build issues with react-syntax-highlighter dist imports
 const syntaxTheme: { [key: string]: React.CSSProperties } = {
@@ -59,6 +61,8 @@ interface EnlightenMeProps {
 }
 
 export function EnlightenMe({ title, defaultPrompt, isOpen, onOpenChange }: EnlightenMeProps) {
+  const { guardAIInteraction } = useAIAuthGate();
+
   // Defensive fallback for title and defaultPrompt
   const safeTitle = title || 'Unknown Concept';
   const safeDefaultPrompt = defaultPrompt || `Learn more about ${safeTitle}.`;
@@ -169,6 +173,7 @@ export function EnlightenMe({ title, defaultPrompt, isOpen, onOpenChange }: Enli
   };
 
   const handleSubmit = async () => {
+    if (!guardAIInteraction()) return;
     trackEvent({ action: 'prompt_submit', category: 'enlighten_me', label: safeTitle });
     try {
       setIsLoading(true);
@@ -206,6 +211,7 @@ export function EnlightenMe({ title, defaultPrompt, isOpen, onOpenChange }: Enli
           <DialogDescription>
             Learn more about this concept with AI assistance. Edit the prompt if you'd like to ask something specific.
           </DialogDescription>
+          <AIDisclosureBanner />
         </DialogHeader>
         
         {!submitted ? (

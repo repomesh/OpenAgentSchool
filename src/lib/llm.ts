@@ -20,6 +20,22 @@ interface LlmResponse {
 }
 
 /**
+ * Auth guard – throws if no access token is present.
+ * This is a safety net; UI components should gate interactions before calling LLM.
+ */
+function requireAuth(): void {
+    try {
+        const token = localStorage.getItem('access_token');
+        if (!token) {
+            throw new Error('Authentication required. Please sign in to use AI features.');
+        }
+    } catch (e) {
+        if (e instanceof Error && e.message.includes('Authentication required')) throw e;
+        // localStorage not available (SSR, etc.) – allow through
+    }
+}
+
+/**
  * Unified multi-provider LLM call with structured messages.
  * Used by SCL and any feature needing system+user message pairs.
  * Resolves provider credentials via getEnvVar (BYOK → env → runtime).
@@ -29,6 +45,7 @@ export async function callLlmWithMessages(
     provider: LlmProvider = 'openrouter',
     options: LlmCallOptions = {}
 ): Promise<LlmResponse> {
+    requireAuth();
     const { temperature = 0.7, maxTokens = 2000, responseFormat = 'text' } = options;
 
     switch (provider) {
@@ -57,6 +74,7 @@ export async function callLlmWithMessages(
 }
 
 export async function callLlm(prompt: string, provider: LlmProvider = 'openai'): Promise<LlmResponse> {
+    requireAuth();
     switch (provider) {
         case 'openai':
             return callOpenAIDirectly(prompt);

@@ -6,6 +6,8 @@ import { Copy, Printer, Brain, Loader2 } from 'lucide-react';
 import { criticalThinkingJudge } from '@/lib/llmJudge';
 import type { LlmJudgeResponse } from '@/lib/llmJudge';
 import { Badge } from '@/components/ui/badge';
+import { AIDisclosureBanner } from '@/components/ai/AIDisclosureBanner';
+import { useAIAuthGate } from '@/components/ai/useAIAuthGate';
 
 interface CriticalThinkingModalProps {
   isOpen: boolean;
@@ -38,6 +40,7 @@ export const CriticalThinkingModal: React.FC<CriticalThinkingModalProps> = ({
   const [response, setResponse] = useState('');
   const [feedback, setFeedback] = useState<LlmJudgeResponse | null>(null);
   const [isGettingFeedback, setIsGettingFeedback] = useState(false);
+  const { guardAIInteraction } = useAIAuthGate();
 
   const handleCopyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -47,6 +50,7 @@ export const CriticalThinkingModal: React.FC<CriticalThinkingModalProps> = ({
     if (!response.trim()) {
       return;
     }
+    if (!guardAIInteraction()) return;
 
     setIsGettingFeedback(true);
     try {
@@ -224,6 +228,7 @@ export const CriticalThinkingModal: React.FC<CriticalThinkingModalProps> = ({
           <DialogDescription>
             Engage with a thought-provoking question designed to develop your analytical and reasoning skills. Use typing or voice input to share your insights.
           </DialogDescription>
+          <AIDisclosureBanner />
         </DialogHeader>
         <div className="flex-1 overflow-y-auto py-4 space-y-4">
           {contextCue && (

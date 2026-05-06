@@ -18,6 +18,8 @@ import { getFirstAvailableProvider } from '@/lib/config';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useSEOContext } from '@/hooks/useSEOContext';
 import { buildEnlightenPrompt } from '@/prompts/enlightenPrompts';
+import { useAIAuthGate } from '@/components/ai/useAIAuthGate';
+import { AIDisclosureBanner } from '@/components/ai/AIDisclosureBanner';
 
 // NOTE: "Ask AI" is an alias for "EnlightenMe Button" - this component provides AI-powered insights
 // It helps users understand complex concepts through interactive AI assistance and contextual prompting
@@ -43,6 +45,7 @@ export function EnlightenMeButton({
 }: EnlightenMeButtonProps) {
   // Get rich SEO context for enhanced prompts
   const seoContext = useSEOContext();
+  const { guardAIInteraction } = useAIAuthGate();
   
   // Create enhanced prompt via centralized builder
   const createEnhancedPrompt = () => {
@@ -86,11 +89,16 @@ export function EnlightenMeButton({
 
   // Different button variants
   const renderButton = () => {
+    const handleOpen = () => {
+      if (!guardAIInteraction()) return;
+      trackEvent({ action: 'dialog_open', category: 'enlighten_me', label: topic || title });
+      setIsOpen(true);
+    };
     switch (variant) {
   case 'default':
         return (
           <Button 
-            onClick={() => { trackEvent({ action: 'dialog_open', category: 'enlighten_me', label: topic || title }); setIsOpen(true); }}
+            onClick={handleOpen}
             size={size} 
             className={className}
           >
@@ -102,7 +110,7 @@ export function EnlightenMeButton({
         return (
           <Button 
             variant="ghost"
-            onClick={() => { trackEvent({ action: 'dialog_open', category: 'enlighten_me', label: topic || title }); setIsOpen(true); }}
+            onClick={handleOpen}
             size={size} 
     className={`${className}`}
           >
@@ -116,7 +124,7 @@ export function EnlightenMeButton({
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => { trackEvent({ action: 'dialog_open', category: 'enlighten_me', label: topic || title }); setIsOpen(true); }}
+            onClick={handleOpen}
     className={`h-8 w-8 rounded-full ${className}`}
     title="Ask AI about this topic"
           >
@@ -152,6 +160,7 @@ export function EnlightenMeButton({
                 ? "🎯 Here's your personalized AI insight about this topic" 
                 : "💡 Customize your query or use our intelligent default prompt to learn about this topic"}
             </DialogDescription>
+            <AIDisclosureBanner />
           </DialogHeader>
           <div className="flex-1 flex flex-col min-h-0">
             {!showResponse ? (

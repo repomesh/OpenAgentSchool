@@ -11,6 +11,8 @@ import { getFirstAvailableProvider, isLlmProviderConfigured } from '@/lib/config
 import { completeExercise } from '@/lib/data/forge/progress';
 import { trackEvent } from '@/lib/analytics/ga';
 import type { SocraticDefenseExercise } from '@/lib/data/forge/types';
+import { useAIAuthGate } from '@/components/ai/useAIAuthGate';
+import { AIDisclosureBanner } from '@/components/ai/AIDisclosureBanner';
 
 type Phase = 'prompt' | 'examining' | 'defense' | 'scoring' | 'result';
 
@@ -34,6 +36,7 @@ export default function SocraticDefense({ exercise, onComplete }: Props) {
   const [loading, setLoading] = useState(false);
   const [score, setScore] = useState<number | null>(null);
   const [feedback, setFeedback] = useState('');
+  const { guardAIInteraction } = useAIAuthGate();
 
   const hasLlm = isLlmProviderConfigured(getFirstAvailableProvider());
   const maxQuestions = content.fallbackQuestions.length;
@@ -64,6 +67,7 @@ export default function SocraticDefense({ exercise, onComplete }: Props) {
   // Submit initial response and start examination
   const handleSubmitResponse = useCallback(async () => {
     if (!initialResponse.trim()) return;
+    if (!guardAIInteraction()) return;
     setPhase('examining');
     setLoading(true);
     const question = await getExaminerQuestion([], initialResponse);
@@ -142,6 +146,7 @@ export default function SocraticDefense({ exercise, onComplete }: Props) {
 
   return (
     <div className="space-y-6">
+      <AIDisclosureBanner />
       {/* Context */}
       <div className="rounded-lg border border-border bg-muted/30 p-4">
         <h3 className="font-semibold text-foreground mb-1">{content.topic}</h3>

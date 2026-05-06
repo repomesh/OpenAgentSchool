@@ -21,6 +21,8 @@ import { LlmProvider, callLlm } from '@/lib/llm';
 import { getFirstAvailableProvider } from '@/lib/config';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useSEOContext } from '@/hooks/useSEOContext';
+import { useAIAuthGate } from '@/components/ai/useAIAuthGate';
+import { AIDisclosureBanner } from '@/components/ai/AIDisclosureBanner';
 
 // Inline dark theme to avoid build issues with react-syntax-highlighter dist imports
 const syntaxTheme: { [key: string]: React.CSSProperties } = {
@@ -79,6 +81,7 @@ const EnlightenMeButton: React.FC<EnlightenMeButtonProps> = ({
   
   // Get rich SEO context for enhanced prompts
   const seoContext = useSEOContext();
+  const { guardAIInteraction } = useAIAuthGate();
   
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -115,6 +118,7 @@ Please provide:
   const [response, setResponse] = useState<string | null>(hasSavedResponse ? savedInsights[conceptId] : null);
   
   const handleOpenChange = (open: boolean) => {
+    if (open && !guardAIInteraction()) return;
     setIsOpen(open);
     if (open) {
       // When opening, check if we have a saved response
@@ -302,6 +306,7 @@ Please provide:
                 ? "🎯 Here's your personalized AI insight about this topic" 
                 : "💡 Customize your query or use our intelligent default prompt to learn about this topic"}
             </DialogDescription>
+            <AIDisclosureBanner />
           </DialogHeader>
           
           <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
