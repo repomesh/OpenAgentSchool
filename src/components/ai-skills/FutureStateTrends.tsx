@@ -284,6 +284,176 @@ export default function FutureStateTrends({ onNavigate }: Props) {
         ]}
       />
 
+      {/* Architecture Evolution: Tools → Agents → Self-Improving Systems */}
+      <Section
+        title="Architecture Evolution: Tools → Agents → Self-Improving"
+        icon={<TrendUp className="w-5 h-5" />}
+        items={[
+          {
+            title: "Harness Systems (Make LLM Reliable)",
+            summary: "Claude Code-style harnesses wrap LLMs in controlled loops with predefined tools, tight context windows, and safety/permission layers. They make raw model output production-worthy.",
+            takeaway: "Harness becomes invisible infrastructure by late 2026. Every serious AI system will use one. Invest in system design over prompt engineering.",
+            horizon: 'Now',
+            confidence: 'High',
+            practice: [
+              { label: 'Concept: Agent Harness Engineering', href: '/concepts/agent-harness-engineering', kind: 'Study' },
+              { label: 'Recipe: Harness Patterns', href: '/playbook', kind: 'Playbook' }
+            ]
+          },
+          {
+            title: "Gateway Systems (Make LLM Accessible Everywhere)",
+            summary: "OpenClaw-type gateway systems expose AI via messaging as the universal interface—WhatsApp, Teams, Slack, SMS. Plugin ecosystems and multi-agent routing enable user-triggered automation.",
+            takeaway: "'Chat is the new operating system.' Messaging-first AI systems explode in adoption. Build for the channels your users already live in.",
+            horizon: '6–12m',
+            confidence: 'High',
+            practice: [
+              { label: 'Scenario: Universal Interface', href: '/study-mode', kind: 'Study' },
+              { label: 'Recipe: Channel Adapter Pattern', href: '/playbook', kind: 'Playbook' }
+            ]
+          },
+          {
+            title: "Learning Agents (Make LLM Self-Improving)",
+            summary: "Hermes-style agents form skills, maintain learning memory, run reflection loops, and self-improve autonomously. They create reusable skills and invent workflows not originally designed.",
+            takeaway: "Self-improving agents go mainstream (early) by late 2026 but remain fragile for critical workflows. Start with skill memory and reflection loops in low-stakes domains.",
+            horizon: '6–12m',
+            confidence: 'Med',
+            practice: [
+              { label: 'Socratic: Learning Agents', href: '/study-mode', kind: 'Study' },
+              { label: 'Concept: Agent Skills', href: '/concepts/agent-skills', kind: 'Study' }
+            ]
+          },
+          {
+            title: "The Stacked Future (Not a Choice)",
+            summary: "The future is NOT choosing one system—it is stacking all three: Harness layer (reliability + control) → Agent runtime (learning + autonomy) → Gateway layer (communication + access). Evolution along 4 axes: Memory (stateless → semantic graphs), Control (human-driven → fully autonomous), Tooling (API calls → self-generated tools), Architecture (single agent → emergent societies).",
+            takeaway: "You won't 'use AI tools'—you will manage AI systems that behave like teams, continuously learning, communicating, and operating on your behalf. Stack all three layers; each reinforces the others.",
+            horizon: '24–36m',
+            confidence: 'High',
+            practice: [
+              { label: 'Socratic: Stacked Architecture', href: '/study-mode', kind: 'Study' },
+              { label: 'Concept: Multi-Agent Systems', href: '/concepts/multi-agent-systems', kind: 'Study' }
+            ]
+          }
+        ]}
+      />
+
+      {/* Architecture Evolution Infographic */}
+      <Card>
+        <CardContent className="p-6">
+          <img
+            src="/images/evolution-of-ai-systems.webp"
+            alt="3D isometric infographic showing the three-layer AI architecture stack: Harness (reliability), Agent Runtime (learning), and Gateway (communication)"
+            className="w-full rounded-lg"
+            loading="lazy"
+          />
+          <p className="mt-3 text-xs text-muted-foreground text-center">
+            The future is stacking — not choosing. Harness + Agent Runtime + Gateway = Enterprise Intelligence.
+          </p>
+        </CardContent>
+      </Card>
+
+      {/* 6-Month Outlook (Late 2026) */}
+      <Section
+        title="6‑Month Outlook: Late 2026"
+        icon={<Rocket className="w-5 h-5" />}
+        items={[
+          {
+            title: "Harness Becomes Standard Infrastructure",
+            summary: "Every serious AI system uses Claude-style harness with built-in memory management, tool orchestration frameworks, and safety/permission layers. 'Prompt engineering' is mostly replaced by system design.",
+            takeaway: "Stop optimizing prompts in isolation. Design the full harness: context management, tool orchestration, permission layers, and recovery loops.",
+            horizon: '6–12m',
+            confidence: 'High',
+            practice: [
+              { label: 'Concept: Harness Engineering', href: '/concepts/agent-harness-engineering', kind: 'Study' },
+              { label: 'Recipe: Full Harness Blueprint', href: '/playbook', kind: 'Playbook' }
+            ]
+          },
+          {
+            title: "Messaging as Universal AI Interface",
+            summary: "OpenClaw-type systems explode in adoption. AI lives in WhatsApp, Teams, Slack, and SMS. Messaging becomes the operating system for AI interaction.",
+            takeaway: "Build AI capabilities that work through existing messaging channels. Users shouldn't need new apps to benefit from agents.",
+            horizon: '6–12m',
+            confidence: 'High',
+            practice: [
+              { label: 'Scenario: Messaging-First Design', href: '/study-mode', kind: 'Study' }
+            ]
+          },
+          {
+            title: "Developer Role Shifts",
+            summary: "Developers shift from writing code to designing agent workflows. New roles emerge: 'Agent Engineers' who design multi-agent systems and 'Harness Engineers' who operationalize reliability.",
+            takeaway: "Learn workflow design, evaluation frameworks, and orchestration patterns. The new leverage point is architecture, not code volume.",
+            horizon: '6–12m',
+            confidence: 'High',
+            practice: [
+              { label: 'Socratic: New Engineering Roles', href: '/study-mode', kind: 'Study' },
+              { label: 'Career: Agent Engineer Path', href: '/career-growth', kind: 'Playbook' }
+            ]
+          },
+          {
+            title: "Self-Improving Agents (Early Stage)",
+            summary: "More projects add skill memory, reflection loops, and auto-improvement. Still fragile and hard to trust for critical workflows, but proves value in bounded domains.",
+            takeaway: "Experiment with learning agents in non-critical paths (docs, testing, research). Build the eval infrastructure to measure genuine improvement vs drift.",
+            horizon: '6–12m',
+            confidence: 'Med',
+            practice: [
+              { label: 'Scenario: Learning Agent Sandbox', href: '/study-mode', kind: 'Study' },
+              { label: 'Recipe: Improvement Evals', href: '/playbook', kind: 'Playbook' }
+            ]
+          }
+        ]}
+      />
+
+      {/* 12-Month Outlook (Mid 2027) */}
+      <Section
+        title="12‑Month Outlook: Mid 2027"
+        icon={<Brain className="w-5 h-5" />}
+        items={[
+          {
+            title: "The Full Stack Converges",
+            summary: "The future is stacking all three layers—not choosing one: [Harness] reliability + control (Claude Code style) → [Agent Runtime] learning + autonomy (Hermes style) → [Gateway] communication + access (OpenClaw style). Messaging → Gateway → Learning Agent → Tools → Memory → Reflection becomes the unified architecture.",
+            takeaway: "You won't 'use AI tools'—you will manage AI systems that behave like teams, continuously learning, communicating, and operating on your behalf. Design for all three layers from day one.",
+            horizon: '6–12m',
+            confidence: 'High',
+            practice: [
+              { label: 'Scenario: Three-Layer Stack', href: '/study-mode', kind: 'Study' },
+              { label: 'Recipe: Unified Agent Architecture', href: '/playbook', kind: 'Playbook' }
+            ]
+          },
+          {
+            title: "Multi-Agent Systems Become Default",
+            summary: "Single-assistant architectures give way to specialized agent teams: Planner → Executor → Coder → Tester → Coordinator. Complex tasks trigger orchestrated pipelines of purpose-built agents that iterate autonomously.",
+            takeaway: "Design for multi-agent from the start. Build agent interfaces with clear contracts, handoff protocols, and orchestration layers rather than monolithic assistants.",
+            horizon: '6–12m',
+            confidence: 'High',
+            practice: [
+              { label: 'Concept: Multi-Agent Systems', href: '/concepts/multi-agent-systems', kind: 'Study' },
+              { label: 'Recipe: Agent Team Orchestration', href: '/playbook', kind: 'Playbook' }
+            ]
+          },
+          {
+            title: "Persistent Digital Workers (Always-On Agents)",
+            summary: "Agents shift from on-demand to always-running background processes. They monitor GitHub repos, email inboxes, logs, and data pipelines continuously—acting proactively rather than waiting for prompts.",
+            takeaway: "Architect for persistent agents: daemon-style lifecycle, event-driven triggers, state management, and graceful degradation. Plan for cost and observability at scale.",
+            horizon: '6–12m',
+            confidence: 'Med',
+            practice: [
+              { label: 'Scenario: Always-On Agent Design', href: '/study-mode', kind: 'Study' },
+              { label: 'Recipe: Persistent Agent Lifecycle', href: '/playbook', kind: 'Playbook' }
+            ]
+          },
+          {
+            title: "Self-Improvement Becomes Reliable",
+            summary: "Hermes-like self-improvement matures: skill reuse stabilizes, reflection becomes structured, hallucinated skills diminish. Agents begin building internal libraries and optimizing their own workflows reliably.",
+            takeaway: "Invest in skill registries, structured reflection frameworks, and improvement evals. The gap narrows between experimental learning agents and production-trusted systems.",
+            horizon: '6–12m',
+            confidence: 'Med',
+            practice: [
+              { label: 'Socratic: Reliable Self-Improvement', href: '/study-mode', kind: 'Study' },
+              { label: 'Recipe: Skill Registry & Reflection', href: '/playbook', kind: 'Playbook' }
+            ]
+          }
+        ]}
+      />
+
       {/* Organization & People */}
       <Section
         title="Organization & People"
