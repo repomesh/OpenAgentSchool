@@ -1331,18 +1331,19 @@ export default function ConceptsHub({
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat"
                 style={{ backgroundImage: `url(${bentoCover[activeTier]})` }}
               />
-              {/* Dark gradient overlay for legibility */}
-              <div className="absolute inset-0 bg-gradient-to-r from-[rgba(10,10,12,0.88)] via-[rgba(10,10,12,0.65)] to-[rgba(10,10,12,0.30)]" />
+              {/* Dark mode: overlay. Light mode: card gradient from bottom */}
+              <div className="absolute inset-0 hidden dark:block bg-gradient-to-r from-[rgba(10,10,12,0.92)] via-[rgba(10,10,12,0.70)] to-[rgba(10,10,12,0.35)]" />
+              <div className="absolute inset-0 dark:hidden bg-gradient-to-t from-card from-30% via-card/90 via-60% to-card/40" />
               {/* Content */}
               <div className="relative flex items-start gap-3 px-5 py-5">
-                <div className="w-10 h-10 rounded-md flex items-center justify-center shrink-0 bg-white/10 text-white/90 backdrop-blur-sm">
+                <div className="w-10 h-10 rounded-md flex items-center justify-center shrink-0 bg-muted/80 text-foreground dark:bg-white/15 dark:text-white">
                   <span>{getTierIcon(activeTier)}</span>
                 </div>
                 <div>
-                  <h2 className="text-xl font-semibold tracking-tight text-white">{tierMeta[activeTier]?.title}</h2>
-                  <p className="text-base text-white/70 mt-0.5">
+                  <h2 className="text-xl font-bold tracking-tight text-foreground dark:text-white">{tierMeta[activeTier]?.title}</h2>
+                  <p className="text-base text-muted-foreground dark:text-white/80 mt-0.5 font-medium">
                     {tierMeta[activeTier]?.description}
-                    <span className="ml-2 font-medium text-white/90">{(conceptsByTier[activeTier] || []).length} concepts</span>
+                    <span className="ml-2 font-semibold text-foreground dark:text-white">{(conceptsByTier[activeTier] || []).length} concepts</span>
                   </p>
                 </div>
               </div>
@@ -1484,39 +1485,39 @@ export default function ConceptsHub({
                       className="absolute inset-0 bg-cover bg-center bg-no-repeat"
                       style={{ backgroundImage: `url(${bentoCover[tier]})` }}
                     />
-                    {/* Dark gradient overlay for text legibility */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[rgba(10,10,12,0.92)] via-[rgba(10,10,12,0.55)] to-[rgba(10,10,12,0.15)]" />
+                    {/* Dark mode: dark overlay with white text. Light mode: solid card panel at bottom */}
+                    <div className="absolute inset-0 hidden dark:block bg-gradient-to-t from-[rgba(10,10,12,0.92)] from-5% via-[rgba(10,10,12,0.65)] via-50% to-[rgba(10,10,12,0.20)]" />
+                    <div className="absolute inset-x-0 bottom-0 top-[35%] dark:hidden bg-gradient-to-t from-card from-60% via-card/95 to-transparent" />
                   </>
                 ) : (
                   <div className={`absolute inset-0 bg-gradient-to-b ${bentoAccent[tier] || ''}`} />
                 )}
 
-                {/* Tile content — anchored to the bottom */}
+                {/* Tile content */}
                 <div className="relative h-full flex flex-col justify-end p-5 gap-3">
-                  {/* Header row */}
                   <div className="flex items-center gap-3">
-                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center backdrop-blur-sm shrink-0 ${hasCover ? 'bg-white/10 text-white/90' : 'bg-muted/80 text-muted-foreground'}`}>
+                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${hasCover ? 'bg-muted/80 text-foreground dark:bg-white/15 dark:text-white' : 'bg-muted/80 text-muted-foreground'}`}>
                       {getTierIcon(tier)}
                     </div>
                     <div className="min-w-0">
-                      <h3 className={`font-semibold text-lg leading-tight tracking-tight ${hasCover ? 'text-white' : ''}`}>{meta.title}</h3>
-                      <span className={`text-xs ${hasCover ? 'text-white/60' : 'text-muted-foreground'}`}>{tierConcepts.length} concepts</span>
+                      <h3 className={`font-bold text-lg leading-tight tracking-tight ${hasCover ? 'text-foreground dark:text-white' : ''}`}>{meta.title}</h3>
+                      <span className={`text-xs font-medium ${hasCover ? 'text-muted-foreground dark:text-white/75' : 'text-muted-foreground'}`}>{tierConcepts.length} concepts</span>
                     </div>
-                    <CaretRight className={`w-5 h-5 ml-auto shrink-0 group-hover:translate-x-1 transition-transform duration-300 ${hasCover ? 'text-white/60' : 'text-muted-foreground'}`} />
+                    <CaretRight className={`w-5 h-5 ml-auto shrink-0 group-hover:translate-x-1 transition-transform duration-300 ${hasCover ? 'text-muted-foreground dark:text-white/70' : 'text-muted-foreground'}`} />
                   </div>
 
                   {/* Description */}
-                  <p className={`text-sm leading-relaxed ${hasCover ? 'text-white/70' : 'text-muted-foreground'}`}>{meta.description}</p>
+                  <p className={`text-sm leading-relaxed font-medium ${hasCover ? 'text-muted-foreground dark:text-white/90' : 'text-muted-foreground'}`}>{meta.description}</p>
 
                   {/* Progress */}
                   <div>
-                    <div className={`flex justify-between text-xs mb-1 ${hasCover ? 'text-white/60' : 'text-muted-foreground'}`}>
+                    <div className={`flex justify-between text-xs mb-1 ${hasCover ? 'text-muted-foreground dark:text-white/60' : 'text-muted-foreground'}`}>
                       <span>{completed} / {tierConcepts.length} completed</span>
                       <span>{pct}%</span>
                     </div>
                     <Progress
                       value={pct}
-                      className={`h-1.5 opacity-80 group-hover:opacity-100 transition-all duration-300 ${hasCover ? 'bg-white/15 [&>div]:bg-white/40' : 'bg-muted [&>div]:bg-foreground/25'}`}
+                      className={`h-1.5 opacity-80 group-hover:opacity-100 transition-all duration-300 ${hasCover ? 'bg-muted dark:bg-white/15 [&>div]:bg-primary/50 dark:[&>div]:bg-white/50' : 'bg-muted [&>div]:bg-foreground/25'}`}
                     />
                   </div>
 
@@ -1526,10 +1527,10 @@ export default function ConceptsHub({
                       <span
                         key={c.id}
                         className={`inline-flex items-center gap-1 text-[10px] leading-tight px-1.5 py-0.5 rounded-sm
-                          backdrop-blur-sm transition-colors
-                          ${hasCover ? 'bg-white/10 text-white/80 border border-white/20' : 'bg-background/80 text-foreground/85 border border-border/60'}`}
+                          transition-colors font-medium
+                          ${hasCover ? 'bg-muted/80 text-foreground border border-border/60 dark:bg-white/15 dark:text-white dark:border-white/25' : 'bg-background/80 text-foreground/85 border border-border/60'}`}
                       >
-                        {completedConcepts.has(c.id) && <CheckCircle className={`w-3 h-3 shrink-0 ${hasCover ? 'text-white/70' : 'text-foreground/70'}`} />}
+                        {completedConcepts.has(c.id) && <CheckCircle className={`w-3 h-3 shrink-0 ${hasCover ? 'text-foreground/70 dark:text-white/70' : 'text-foreground/70'}`} />}
                         <span className="truncate max-w-[150px]">{c.title}</span>
                       </span>
                     ))}

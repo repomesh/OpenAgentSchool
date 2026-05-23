@@ -696,27 +696,27 @@ export default function AISkillsExplorer() {
                             className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-700 ease-out group-hover:scale-[1.04]"
                             style={{ backgroundImage: `url(${categoryCover[cat.id]})` }}
                           />
-                          <div className="absolute inset-0 bg-gradient-to-t from-[rgba(10,10,12,0.94)] via-[rgba(10,10,12,0.50)] to-[rgba(10,10,12,0.12)] group-hover:via-[rgba(10,10,12,0.45)] transition-colors duration-500" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-[rgba(10,10,12,0.97)] from-10% via-[rgba(10,10,12,0.82)] via-50% to-[rgba(10,10,12,0.45)] group-hover:via-[rgba(10,10,12,0.75)] transition-colors duration-500" />
                         </>
                       ) : (
                         <div className={`absolute inset-0 bg-gradient-to-b ${categoryAccent[cat.id] || ''}`} />
                       )}
-                      <div className="relative h-full flex flex-col justify-end p-5 gap-2.5">
+                      <div className="relative h-full flex flex-col justify-end p-5 gap-2.5" style={hasCover ? { textShadow: '0 2px 6px rgba(0,0,0,0.8), 0 0 2px rgba(0,0,0,0.5)' } : undefined}>
                         <div className="flex items-center gap-3">
-                          <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 backdrop-blur-sm ${hasCover ? 'bg-white/10 text-white/90' : 'bg-muted/80 text-muted-foreground'}`}>
+                          <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 backdrop-blur-sm ${hasCover ? 'bg-black/30 text-white' : 'bg-muted/80 text-muted-foreground'}`}>
                             {categoryIcons[cat.id] || <BookOpen className="w-5 h-5" />}
                           </div>
                           <div className="min-w-0">
-                            <h3 className={`font-semibold text-lg leading-tight tracking-tight ${hasCover ? 'text-white' : ''}`}>{cat.title}</h3>
-                            <span className={`text-xs ${hasCover ? 'text-white/55' : 'text-muted-foreground'}`}>{cat.moduleIds.length} modules</span>
+                            <h3 className={`font-semibold text-lg leading-tight tracking-tight ${hasCover ? 'text-white drop-shadow-md' : ''}`}>{cat.title}</h3>
+                            <span className={`text-xs ${hasCover ? 'text-white/70' : 'text-muted-foreground'}`}>{cat.moduleIds.length} modules</span>
                           </div>
-                          <CaretRight className={`w-5 h-5 ml-auto shrink-0 transition-transform duration-300 group-hover:translate-x-1 ${hasCover ? 'text-white/50' : 'text-muted-foreground'}`} />
+                          <CaretRight className={`w-5 h-5 ml-auto shrink-0 transition-transform duration-300 group-hover:translate-x-1 ${hasCover ? 'text-white/70' : 'text-muted-foreground'}`} />
                         </div>
                         {cat.description && (
-                          <p className={`text-sm leading-relaxed ${hasCover ? 'text-white/65' : 'text-muted-foreground'}`}>{cat.description}</p>
+                          <p className={`text-sm leading-relaxed ${hasCover ? 'text-white/80' : 'text-muted-foreground'}`}>{cat.description}</p>
                         )}
                         <div>
-                          <div className={`flex justify-between text-[11px] mb-1 ${hasCover ? 'text-white/50' : 'text-muted-foreground'}`}>
+                          <div className={`flex justify-between text-[11px] mb-1 ${hasCover ? 'text-white/60' : 'text-muted-foreground'}`}>
                             <span>{done}/{cat.moduleIds.length}</span>
                             <span>{pct}%</span>
                           </div>
@@ -794,28 +794,28 @@ export default function AISkillsExplorer() {
                     className="absolute inset-0 bg-cover bg-center bg-no-repeat"
                     style={{ backgroundImage: `url(${categoryCover[currentCategory.id]})` }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-r from-[rgba(10,10,12,0.92)] via-[rgba(10,10,12,0.65)] to-[rgba(10,10,12,0.25)]" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-[rgba(10,10,12,0.97)] via-[rgba(10,10,12,0.82)] to-[rgba(10,10,12,0.55)]" />
                 </>
               ) : (
                 <div className={`absolute inset-0 bg-gradient-to-br ${categoryAccent[currentCategory.id] || ''}`} />
               )}
-              <div className="relative px-8 py-10">
+              <div className="relative px-8 py-10" style={categoryCover[currentCategory.id] ? { textShadow: '0 2px 6px rgba(0,0,0,0.8), 0 0 2px rgba(0,0,0,0.5)' } : undefined}>
                 <div className="flex items-center gap-4">
-                  <div className={`w-14 h-14 rounded-xl flex items-center justify-center backdrop-blur-sm ${categoryCover[currentCategory.id] ? 'bg-white/10 text-white' : 'bg-muted text-muted-foreground'}`}>
+                  <div className={`w-14 h-14 rounded-xl flex items-center justify-center backdrop-blur-sm ${categoryCover[currentCategory.id] ? 'bg-black/30 text-white' : 'bg-muted text-muted-foreground'}`}>
                     {categoryIcons[currentCategory.id] || <BookOpen className="w-7 h-7" />}
                   </div>
                   <div>
-                    <h1 className={`text-3xl font-bold tracking-tight ${categoryCover[currentCategory.id] ? 'text-white' : ''}`}>
+                    <h1 className={`text-3xl font-bold tracking-tight ${categoryCover[currentCategory.id] ? 'text-white drop-shadow-md' : ''}`}>
                       {currentCategory.title}
                     </h1>
                     {currentCategory.description && (
-                      <p className={`mt-1 text-lg ${categoryCover[currentCategory.id] ? 'text-white/70' : 'text-muted-foreground'}`}>
+                      <p className={`mt-1 text-lg ${categoryCover[currentCategory.id] ? 'text-white/85' : 'text-muted-foreground'}`}>
                         {currentCategory.description}
                       </p>
                     )}
                   </div>
                 </div>
-                <div className={`mt-4 text-sm ${categoryCover[currentCategory.id] ? 'text-white/50' : 'text-muted-foreground'}`}>
+                <div className={`mt-4 text-sm ${categoryCover[currentCategory.id] ? 'text-white/70' : 'text-muted-foreground'}`}>
                   {currentCategory.moduleIds.filter(mid => isCompleted(mid)).length} of {currentCategory.moduleIds.length} modules completed
                 </div>
               </div>
